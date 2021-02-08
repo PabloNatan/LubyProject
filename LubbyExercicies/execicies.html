@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Exercicies Lubby</title>
+	<script>
+		/*
+		1) Implemente um método que crie um novo array baseado nos valores passados.
+		Entradas do método (3,a), Resultado do método: ['a', 'a', 'a']
+		*/
+		function createArray(numberItens, content){
+			let array = [];
+
+			for (let i = 0; i < numberItens; i++) {
+				array[i] = content;
+			}
+			return array;
+		}
+		console.log('Exercise 1: createArray(3,a)', createArray(3, 'a'))
+
+		/*
+		2) Implemente um método que inverta um array, não utilize métodos nativos do array.
+		Entrada do método ([1,2,3,4]), Resultado do método: [4,3,2,1]		
+		*/
+		function invertArray(array){
+			let newArray = []
+
+			for (let i = 0; i < array.length ; i++) {
+				let position = array.length - (i + 1);
+				newArray[i] = array[position]
+			}
+			return newArray;
+		}
+		console.log('Exercise 2: invertArray([1,2,3,4])', invertArray([1,2,3,4]))
+
+		/*
+		3) Implemente um método que limpe os itens desnecessários de um array (false, undefined, strings vazias, zero, null).
+		Entrada do método ([1,2,'', undefined]), Resultado do método: [1,2]
+		*/
+		function cleanerArray(array){
+			let dirtyArray = array;
+			let invalidValues = [false, undefined, '', 0, null, ];
+			let newArray = [];
+			for (let i = 0 ; i < dirtyArray.length; i++) {
+				let clean = true;
+				for (let j = 0; j < invalidValues.length; j++) {
+					if(dirtyArray[i] === invalidValues[j])
+					{
+						clean = false;
+						dirtyArray[i] = null;
+					}
+				}
+				if(clean) {
+					newArray[newArray.length] = dirtyArray[i];	
+				}
+			}
+			return newArray;
+		}
+		function cleanerArray2(array){
+			let newArray =  array.map(i => i);
+			let invalidValues = [false, undefined, '', 0, null,];
+
+			for (let i = 0 ; i < invalidValues.length; i++) {
+				while(newArray.indexOf(invalidValues[i]) != -1){
+					newArray.splice(newArray.indexOf(invalidValues[i]),1);
+				}
+			}
+			return newArray;
+		}
+		console.log("Exercicies 3: cleanerArray([1, 2, '', undefined])", cleanerArray2([1,2, '', undefined,]))
+
+		/*
+		4) Implemente um método que a partir de um array de arrays, converta em um objeto com chave e valor.
+		Entrada do método ([["c",2],["d",4]]), Resultado do métdodo: {c:2, d:4}
+		*/
+		function arrayToObject(arrays){
+			let object = {};
+			for (let i = 0; i < arrays.length ; i++) {
+				let arrayItem = arrays[i]
+				object[arrayItem[0]] = arrayItem[1]
+			}
+			return object;
+		}
+		console.log("Exercicies 4: arrayToObject([['c',2],['d',4]])", arrayToObject(([["c",2],["d",4]])));
+
+		/*
+		5) Implemente um método que retorne um array, sem os itens passados por parâmetro depois do array de entrada. Entrada do método ([5,4,3,2,5], 5,3), Resultado do método: [4,2]
+		*/
+		function removeItems( array, ...elements){
+			let newArray = array;
+			let elementsToRemove = elements;
+			for (let i = 0 ; i < elementsToRemove.length; i++) {
+
+				while(newArray.indexOf(elementsToRemove[i]) != -1){
+					newArray.splice(newArray.indexOf(elementsToRemove[i]),1);
+				}
+			}
+			return newArray;
+		}
+		console.log("Exercicies 5: removeItems([5,4,3,2,5], 5,3)", removeItems([5,4,3,2,5], 5,3))
+		/*
+		6) Implemente um método que retorne um array, sem valores duplicados.
+		Entrada do método ([1,2,3,3,2,4,5,4,7,3]), Resultado do método: [1,2,3,4,5,7]
+		*/
+		function killOnlyNumbersDuplicated(dirtyArray) {
+			let array = dirtyArray.map( i => i);
+			let newArray = [];
+
+			array = array.sort((a,b) => a - b);
+			newArray[0] = array[0];
+			let j = 0;
+			for (let i = 0; i < array.length - 1 ; i++) {
+					
+				if(newArray[j] < array[i + 1] ){
+					newArray[j+1] = array[i+1];
+					j++;
+				}
+			}
+			return newArray;
+		}
+		function killDuplicated(dirtyArray){
+			let duplicatedArray = dirtyArray.map(i => i);
+			let newArray = [];
+			
+			while(duplicatedArray.length > 0){			
+
+				let lastPosition = newArray.push(duplicatedArray[0]);
+				let itemRemoved = duplicatedArray.shift();
+
+				while(duplicatedArray.indexOf(itemRemoved) != -1){
+
+					let position = duplicatedArray.indexOf(itemRemoved);
+					duplicatedArray.splice(position, 1);
+				}
+			}
+			return newArray;
+
+		}
+		console.log("Exercicies 6: killDuplicated([1,2,3,3,2,4,5,4,7,3])", killDuplicated([1,2,3,3,2,4,5,4,7,3]))
+		/*
+		7) Implemente um método que compare a igualdade de dois arrays e retorne um valor booleano.
+		Entrada do método ([1,2,3,4],[1,2,3,4]), Resultado do método: true
+		*/
+		function isEqual(firstArray, seccondArray){
+
+			if(firstArray.length != seccondArray.length) return false;
+
+			for(let i = 0; i < firstArray.length; i++){
+				if(firstArray[i] != seccondArray[i]) return false;
+			}
+			return true;
+		}
+		console.log("Exercicies 7: isEqual([1,2,3,4],[1,2,3,4])", isEqual([1,2,3,4],[1,2,3,4]))
+		/*
+		8) Implemente um método que remova os aninhamentos de um array de arrays para um array unico.
+		Entrada do método ([1, 2, [3], [4, 5]]), Resultado do método: [1, 2, 3, 4, 5]
+		*/
+		function joinArray(elements){
+			
+			let newArray = [];
+
+			for(let i = 0; i < elements.length; i++){
+
+				if(Array.isArray(elements[i])){
+					for(let j = 0; j < elements[i].length; j++){
+						newArray.push(elements[i][j])
+					}
+				} else {
+					newArray.push(elements[i])
+				}
+			}
+			return newArray;
+		}
+		console.log("Exercicies 8: joinArray([1,2,[3], [4,5]])", joinArray([1,2,[3], [4,5]]));
+		/*
+		9) Implemente um método divida um array por uma quantidade passada por parâmetro.
+		Entrada do método ([1, 2, 3, 4, 5], 2), Resultado do método: [[1, 2], [3, 4], [5]]
+		*/
+		function makeArrays(array, qtd){
+
+			if(array.length < qtd) return array;	
+
+			numPieces = Math.ceil(array.length / qtd);
+			let newArray = [];
+
+			for(let i = 0; i < numPieces; i++)	{
+				let piece = array.splice(0, qtd);
+				newArray.push(piece);
+			}
+
+			return newArray;
+		}
+		console.log("Exercicies 9: makeArrays([1,2,3,4,5],2)", makeArrays([1,2,3,4,5,6], 2) );
+		/*
+		10) Implemente um método que encontre os valores comuns entre dois arrays.
+		Entrada do método ([6, 8], [8, 9]), Resultado do método: [8]
+		*/
+		function findEqual(firstArray, secondArray){
+
+			let bigger = firstArray.length >= secondArray.length ? firstArray : secondArray;
+			let smaller = firstArray.length < secondArray.length ? firstArray : secondArray;
+			let newArray = [];
+
+			for(let i = 0; i < bigger.length;  i++){
+
+					let itemFound = smaller.indexOf(bigger[i]);
+
+					if(newArray.indexOf(smaller[itemFound]) == -1 && itemFound != -1) newArray.push(smaller[itemFound]);
+			}
+
+			return newArray;
+		}
+		console.log("Exercicies 10: findEqual([6,8], [8,9])", findEqual([6,8], [8,9]))
+	</script>
+</head>
+<body>
+
+</body>
+</html>
